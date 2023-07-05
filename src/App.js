@@ -49,6 +49,21 @@ const App = () => {
     setIsStorage(null);
   };
 
+  const handleNewBrowser = () => {
+    var useragt = navigator.userAgent.toLowerCase();
+		var target_url = window.location.href;
+    target_url = target_url.replace(/\/$/, "");
+    target_url = `${target_url}?testParam=abcdef`;
+    alert(target_url)
+
+    if(useragt.match(/kakaotalk/i)){
+			//카카오톡 외부브라우저로 호출
+			window.location.href = 'kakaotalk://web/openExternal?url='+encodeURIComponent(target_url);
+    } else {
+      window.location.href='intent://'+target_url.replace(/https?:\/\//i,'')+'#Intent;scheme=http;package=com.android.chrome;end';
+    }
+  }
+
   useEffect(() => {
     const agent = navigator.userAgent.toLowerCase();
 
@@ -67,6 +82,9 @@ const App = () => {
       <p>로컬스토리지 데이터: {isStorage ? isStorage : "값이 없습니다"}</p>
       <hr />
       <p>카카오인가요? {isApp ? "네" : "아뇨"}</p>
+      {isApp && (
+        <button onClick={handleNewBrowser}>새로운 브라우저로 열기</button>
+      )}
       <hr />
       {deferredPrompt ? (
         <div>
