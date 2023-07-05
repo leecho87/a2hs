@@ -37,6 +37,7 @@ const useA2HS = () => {
 const App = () => {
   const { deferredPrompt, installApp, clearPrompt } = useA2HS();
   const [isStorage, setIsStorage] = useState(null);
+  const [isApp, setIsApp] = useState(false);
 
   const handleSave = () => {
     localStorage.setItem("TEST", "로컬스토리지에 테스트 값을 저장합니다.");
@@ -46,7 +47,17 @@ const App = () => {
   const handleDelete = () => {
     localStorage.removeItem("TEST");
     setIsStorage(null);
-  }
+  };
+
+  useEffect(() => {
+    const agent = navigator.userAgent.toLowerCase();
+
+    if (agent.includes("kakao")) {
+      setIsApp(true)
+    } else {
+      setIsApp(false);
+    }
+  }, [])
 
   return (
     <>
@@ -54,6 +65,8 @@ const App = () => {
       <button onClick={handleSave}>로컬스토리지에 데이터 저장</button>
       <button onClick={handleDelete}>로컬스토리지 값 삭제</button>
       <p>로컬스토리지 데이터: {isStorage ? isStorage : "값이 없습니다"}</p>
+      <hr />
+      <p>카카오인가요? {isApp ? "네" : "아뇨"}</p>
       <hr />
       {deferredPrompt ? (
         <div>
