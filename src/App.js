@@ -36,10 +36,25 @@ const useA2HS = () => {
 
 const App = () => {
   const { deferredPrompt, installApp, clearPrompt } = useA2HS();
+  const [isStorage, setIsStorage] = useState(null);
+
+  const handleSave = () => {
+    localStorage.setItem("TEST", "로컬스토리지에 테스트 값을 저장합니다.");
+    setIsStorage(JSON.stringify(localStorage.getItem("TEST")));
+  }
+
+  const handleDelete = () => {
+    localStorage.removeItem("TEST");
+    setIsStorage(null);
+  }
 
   return (
     <>
       <h1>load</h1>
+      <button onClick={handleSave}>로컬스토리지에 데이터 저장</button>
+      <button onClick={handleDelete}>로컬스토리지 값 삭제</button>
+      <p>로컬스토리지 데이터: {isStorage ? isStorage : "값이 없습니다"}</p>
+      <hr />
       {deferredPrompt ? (
         <div>
           <button onClick={clearPrompt}>취소</button>
