@@ -36,7 +36,7 @@ const useA2HS = () => {
 
 const App = () => {
   const { deferredPrompt, installApp, clearPrompt } = useA2HS();
-  const [isStorage, setIsStorage] = useState(null);
+  const [isStorage, setIsStorage] = useState(JSON.stringify(localStorage.getItem("TEST") || null));
   const [isApp, setIsApp] = useState(false);
 
   const handleSave = () => {
